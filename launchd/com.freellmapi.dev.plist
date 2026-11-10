@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Keeps the local FreeLLMAPI dev stack running: API on http://localhost:3001
+  (tsx watch) and the dashboard on http://localhost:5173 (vite), both via
+  `npm run dev`. Starts at login and is relaunched by launchd if it exits.
+
+  Install once:
+    cp launchd/com.freellmapi.dev.plist ~/Library/LaunchAgents/
+    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.freellmapi.dev.plist
+
+  Restart after pulling changes that touch dependencies:
+    launchctl kickstart -k gui/$(id -u)/com.freellmapi.dev
+
+  Stop for good:
+    launchctl bootout gui/$(id -u)/com.freellmapi.dev
+
+  Log: /tmp/freellmapi-dev.log
+-->
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.freellmapi.dev</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Users/adityarajsingh/.nvm/versions/node/v22.22.0/bin/npm</string>
+		<string>run</string>
+		<string>dev</string>
+	</array>
+	<key>WorkingDirectory</key>
+	<string>/Users/adityarajsingh/personal/freellmapi</string>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>PATH</key>
+		<string>/Users/adityarajsingh/.nvm/versions/node/v22.22.0/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+		<key>HOME</key>
+		<string>/Users/adityarajsingh</string>
+	</dict>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>KeepAlive</key>
+	<true/>
+	<key>ThrottleInterval</key>
+	<integer>10</integer>
+	<!-- 077: the log can contain the first-boot key print; keep it owner-only. -->
+	<key>Umask</key>
+	<integer>63</integer>
+	<key>StandardOutPath</key>
+	<string>/tmp/freellmapi-dev.log</string>
+	<key>StandardErrorPath</key>
+	<string>/tmp/freellmapi-dev.log</string>
+</dict>
+</plist>

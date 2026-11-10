@@ -20,6 +20,10 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
+      // The launchd agent (launchd/com.freellmapi.dev.plist) and local bookmarks
+      // expect the dashboard on 5173; fail loudly on a clash instead of drifting to 5174.
+      port: 5173,
+      strictPort: true,
       proxy: {
         // Force IPv4 — on Windows + Node 17+, `localhost` resolves to ::1 first,
         // which can collide with wslrelay / Docker Desktop listeners on the same port.
