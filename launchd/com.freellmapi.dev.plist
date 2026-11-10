@@ -15,7 +15,7 @@
   Stop for good:
     launchctl bootout gui/$(id -u)/com.freellmapi.dev
 
-  Log: /tmp/freellmapi-dev.log
+  Log: ~/Library/Logs/freellmapi-dev.log
 -->
 <plist version="1.0">
 <dict>
@@ -42,12 +42,12 @@
 	<true/>
 	<key>ThrottleInterval</key>
 	<integer>10</integer>
-	<!-- 077: the log can contain the first-boot key print; keep it owner-only. -->
-	<key>Umask</key>
-	<integer>63</integer>
+	<!-- The log can contain the first-boot key print. launchd creates the file
+	     world-readable regardless of Umask, so keep it under ~/Library (0700)
+	     rather than /tmp. -->
 	<key>StandardOutPath</key>
-	<string>/tmp/freellmapi-dev.log</string>
+	<string>/Users/adityarajsingh/Library/Logs/freellmapi-dev.log</string>
 	<key>StandardErrorPath</key>
-	<string>/tmp/freellmapi-dev.log</string>
+	<string>/Users/adityarajsingh/Library/Logs/freellmapi-dev.log</string>
 </dict>
 </plist>
